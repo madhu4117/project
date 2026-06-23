@@ -1,0 +1,80 @@
+.admin-container {
+  min-height: 100vh;
+  background: #0f172a;
+  color: white;
+  padding: 40px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #ff4d6d;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.stat-card {
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,.4);
+}
+
+.stat-card h2 {
+  color: #60a5fa;
+  font-size: 35px;
+}
+
+.section {
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 20px;
+  margin-bottom: 40px;
+}
+
+.section h2 {
+  color: #ff4d6d;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #334155;
+  padding: 15px;
+}
+
+td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #334155;
+}
+
+.review-card {
+  background: #334155;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.delete-btn {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: crimson;
+  color: white;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: red;
+}

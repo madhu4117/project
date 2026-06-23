@@ -1,0 +1,253 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #111827;
+  color: white;
+}
+
+.app {
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #ff4d4d;
+  margin-bottom: 30px;
+  font-size: 42px;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.search-box input {
+  width: 350px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.movie-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.movie-card {
+  background: #1f2937;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+}
+
+.movie-card img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+.movie-info {
+  padding: 15px;
+}
+
+.movie-info h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.movie-info p {
+  color: #cbd5e1;
+  margin-top: 8px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.button-group button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.wishlist-btn {
+  background: #ff4d6d;
+  color: white;
+}
+
+.wishlist-btn:hover {
+  background: #ff3355;
+}
+
+.details-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.details-btn:hover {
+  background: #1d4ed8;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px 0;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  background: #374151;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination button:hover {
+  background: #4b5563;
+}
+
+.wishlist-section h2 {
+  color: #ff4d6d;
+}
+
+/* Animations & Polished Aesthetics */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Subtitle styling */
+.home-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.home-header h1 {
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #94a3b8;
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Empty State styling */
+.empty-state {
+  text-align: center;
+  background: rgba(31, 41, 55, 0.4);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  padding: 40px 20px;
+  border-radius: 14px;
+  margin: 20px 0;
+}
+
+.empty-state h3 {
+  margin: 0 0 10px 0;
+  color: #f3f4f6;
+  font-size: 20px;
+}
+
+.empty-state p {
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* Movie Poster Container Overlay Details */
+.movie-poster-container {
+  position: relative;
+  overflow: hidden;
+  height: 350px;
+}
+
+.movie-poster-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.movie-card:hover .movie-poster-container img {
+  transform: scale(1.05);
+}
+
+.poster-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.movie-poster-container:hover .poster-overlay {
+  opacity: 1;
+}
+
+.poster-overlay span {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.movie-card-title {
+  font-size: 18px !important;
+  font-weight: 700;
+  color: #f3f4f6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.movie-card-title:hover {
+  color: #2563eb;
+}
+
+.movie-card-year {
+  color: #94a3b8 !important;
+  font-size: 14px;
+}
+
+/* Input validation styling */
+.error-text {
+  text-align: center;
+  color: #ef4444;
+  font-size: 18px;
+  margin: 20px 0;
+}
