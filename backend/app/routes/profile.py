@@ -10,7 +10,8 @@ from app.schemas.user_schema import (
 )
 from app.utils.security import (
     hash_password,
-    verify_password
+    verify_password,
+    get_current_user
 )
 
 router = APIRouter(
@@ -21,25 +22,24 @@ router = APIRouter(
 
 # View profile
 @router.get("/", response_model=UserResponse)
-def get_profile(db: Session = Depends(get_db)):
-
-    user = db.query(User).filter(
-        User.id == 1
-    ).first()
-
-    return user
+def get_profile(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return current_user
 
 
 # Edit profile
 @router.put("/")
 def update_profile(
     data: UpdateProfile,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
 
     existing_email = db.query(User).filter(
         User.email == data.email,
-        User.id != 1
+        User.id != current_user.id
     ).first()
 
     if existing_email:
@@ -49,7 +49,7 @@ def update_profile(
         )
 
     user = db.query(User).filter(
-        User.id == 1
+        User.id == current_user.id
     ).first()
 
     user.name = data.name
@@ -66,11 +66,12 @@ def update_profile(
 @router.put("/change-password")
 def change_password(
     data: ChangePassword,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
 
     user = db.query(User).filter(
-        User.id == 1
+        User.id == current_user.id
     ).first()
 
     if not verify_password(

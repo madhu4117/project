@@ -1,0 +1,23 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+backend/venv/
+backend/.env
+backend/movies.db
+
+# Frontend
+movies/node_modules/
+movies/build/
+movies/.env
+movies/.env.local
+movies/.env.development.local
+movies/.env.test.local
+movies/.env.production.local
+
+# Misc
+.DS_Store
+Thumbs.db

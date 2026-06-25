@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 
 from app.database.db import get_db
+from app.utils.security import get_current_user
 
 from app.models.user import User
 from app.models.review import Review
@@ -16,11 +17,23 @@ router = APIRouter(
 )
 
 
+def verify_admin(current_user: User = Depends(get_current_user)):
+    if current_user.role != "admin":
+        raise HTTPException(
+            status_code=403,
+            detail="Not authorized. Admin privileges required."
+        )
+    return current_user
+
+
 # ==========================
 # Dashboard Statistics
 # ==========================
 @router.get("/stats")
-def get_stats(db: Session = Depends(get_db)):
+def get_stats(
+    db: Session = Depends(get_db),
+    admin: User = Depends(verify_admin)
+):
 
     total_users = db.query(User).count()
 
@@ -53,7 +66,10 @@ def get_stats(db: Session = Depends(get_db)):
 # Users List
 # ==========================
 @router.get("/users")
-def get_users(db: Session = Depends(get_db)):
+def get_users(
+    db: Session = Depends(get_db),
+    admin: User = Depends(verify_admin)
+):
 
     users = db.query(User).all()
 
@@ -72,7 +88,10 @@ def get_users(db: Session = Depends(get_db)):
 # Review Moderation
 # ==========================
 @router.get("/reviews")
-def get_reviews(db: Session = Depends(get_db)):
+def get_reviews(
+    db: Session = Depends(get_db),
+    admin: User = Depends(verify_admin)
+):
 
     reviews = db.query(Review).all()
 
@@ -93,7 +112,8 @@ def get_reviews(db: Session = Depends(get_db)):
 @router.delete("/reviews/{review_id}")
 def delete_review(
     review_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin: User = Depends(verify_admin)
 ):
 
     review = (

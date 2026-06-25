@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL, getAuthHeaders } from "../services/api";
 import "./AdminDashboard.css";
 
 function AdminDashboard() {
@@ -14,15 +15,18 @@ function AdminDashboard() {
   const loadDashboard = async () => {
     try {
       const statsResponse = await axios.get(
-        "http://127.0.0.1:8000/admin/stats"
+        `${BASE_URL}/admin/stats`,
+        getAuthHeaders()
       );
 
       const usersResponse = await axios.get(
-        "http://127.0.0.1:8000/admin/users"
+        `${BASE_URL}/admin/users`,
+        getAuthHeaders()
       );
 
       const reviewsResponse = await axios.get(
-        "http://127.0.0.1:8000/admin/reviews"
+        `${BASE_URL}/admin/reviews`,
+        getAuthHeaders()
       );
 
       setStats(statsResponse.data);
@@ -36,7 +40,8 @@ function AdminDashboard() {
   const deleteReview = async (id) => {
     try {
       await axios.delete(
-        `http://127.0.0.1:8000/admin/reviews/${id}`
+        `${BASE_URL}/admin/reviews/${id}`,
+        getAuthHeaders()
       );
 
       setReviews(

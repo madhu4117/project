@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL, getAuthHeaders } from "../services/api";
 import "./Profile.css";
 
 function Profile() {
@@ -16,7 +17,8 @@ function Profile() {
   const loadProfile = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/profile/"
+        `${BASE_URL}/profile/`,
+        getAuthHeaders()
       );
 
       setName(response.data.name || "");
@@ -30,11 +32,12 @@ function Profile() {
   const updateProfile = async () => {
     try {
       await axios.put(
-        "http://127.0.0.1:8000/profile/",
+        `${BASE_URL}/profile/`,
         {
           name,
           email
-        }
+        },
+        getAuthHeaders()
       );
 
       alert("Profile updated successfully");
@@ -47,11 +50,12 @@ function Profile() {
   const changePassword = async () => {
     try {
       await axios.put(
-        "http://127.0.0.1:8000/profile/change-password",
+        `${BASE_URL}/profile/change-password`,
         {
           old_password: oldPassword,
           new_password: newPassword
-        }
+        },
+        getAuthHeaders()
       );
 
       alert("Password changed successfully");

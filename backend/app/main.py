@@ -14,6 +14,7 @@ from app.routes.dashboard import router as dashboard_router
 from app.routes.reviews import router as reviews_router
 from app.routes.admin import router as admin_router
 from app.routes.collections import router as collections_router
+from app.routes.profile import router as profile_router
 
 # Database
 from app.database.db import (
@@ -87,6 +88,7 @@ app.include_router(dashboard_router)
 app.include_router(reviews_router)
 app.include_router(admin_router)
 app.include_router(collections_router)
+app.include_router(profile_router)
 
 
 @app.get("/")

@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from app.schemas.collection_schema import CollectionResponse
 
 from app.database.db import get_db
+from app.utils.security import get_current_user
+from app.models.user import User
 
 from app.schemas.collection_schema import (
     CollectionCreate,
@@ -30,11 +32,12 @@ router = APIRouter(
 @router.post("/")
 def create_new_collection(
     collection: CollectionCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     return create_collection(
         db=db,
-        user_id=1,
+        user_id=current_user.id,
         name=collection.name,
         description=collection.description
     )
@@ -46,11 +49,12 @@ def create_new_collection(
     response_model=list[CollectionResponse]
 )
 def get_all_collections(
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     return get_collections(
         db=db,
-        user_id=1
+        user_id=current_user.id
     )
 
 
@@ -58,14 +62,15 @@ def get_all_collections(
 @router.get("/{collection_id}")
 def get_single_collection(
     collection_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     collection = get_collection(
         db,
         collection_id
     )
 
-    if collection is None:
+    if collection is None or collection.user_id != current_user.id:
         raise HTTPException(
             status_code=404,
             detail="Collection not found"
@@ -79,8 +84,16 @@ def get_single_collection(
 def edit_collection(
     collection_id: int,
     collection: CollectionUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
+    col = get_collection(db, collection_id)
+    if col is None or col.user_id != current_user.id:
+        raise HTTPException(
+            status_code=404,
+            detail="Collection not found"
+        )
+
     result = update_collection(
         db,
         collection_id,
@@ -101,8 +114,16 @@ def edit_collection(
 @router.delete("/{collection_id}")
 def remove_collection(
     collection_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
+    col = get_collection(db, collection_id)
+    if col is None or col.user_id != current_user.id:
+        raise HTTPException(
+            status_code=404,
+            detail="Collection not found"
+        )
+
     success = delete_collection(
         db,
         collection_id
@@ -124,8 +145,16 @@ def remove_collection(
 def add_movie(
     collection_id: int,
     movie: CollectionMovieCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
+    col = get_collection(db, collection_id)
+    if col is None or col.user_id != current_user.id:
+        raise HTTPException(
+            status_code=404,
+            detail="Collection not found"
+        )
+
     return add_movie_to_collection(
         db,
         collection_id,
@@ -140,8 +169,16 @@ def add_movie(
 def remove_movie(
     collection_id: int,
     movie_id: str,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
+    col = get_collection(db, collection_id)
+    if col is None or col.user_id != current_user.id:
+        raise HTTPException(
+            status_code=404,
+            detail="Collection not found"
+        )
+
     success = remove_movie_from_collection(
         db,
         collection_id,

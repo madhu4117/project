@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { fetchMovieDetails } from "../services/api";
+import { fetchMovieDetails, BASE_URL, getAuthHeaders } from "../services/api";
 import "./MovieDetails.css";
 
 function MovieDetails() {
@@ -44,13 +44,15 @@ function MovieDetails() {
       }
 
       const reviewsResponse = await axios.get(
-        `http://127.0.0.1:8000/reviews/${id}`
+        `${BASE_URL}/reviews/${id}`,
+        getAuthHeaders()
       );
 
       setReviews(reviewsResponse.data);
 
       const avgResponse = await axios.get(
-        `http://127.0.0.1:8000/reviews/${id}/average`
+        `${BASE_URL}/reviews/${id}/average`,
+        getAuthHeaders()
       );
 
       setAverageRating(avgResponse.data.average_rating);
@@ -65,7 +67,8 @@ function MovieDetails() {
   const loadCollections = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/collections/"
+        `${BASE_URL}/collections/`,
+        getAuthHeaders()
       );
 
       setCollections(response.data);
@@ -86,12 +89,13 @@ function MovieDetails() {
 
     try {
       await axios.post(
-        `http://127.0.0.1:8000/collections/${selectedCollection}/movies`,
+        `${BASE_URL}/collections/${selectedCollection}/movies`,
         {
           movie_id: id,
           movie_title: movie.Title,
           poster: movie.Poster
-        }
+        },
+        getAuthHeaders()
       );
 
       alert("Movie added to collection successfully!");
@@ -104,12 +108,13 @@ function MovieDetails() {
   const submitReview = async () => {
     try {
       await axios.post(
-        "http://127.0.0.1:8000/reviews/",
+        `${BASE_URL}/reviews/`,
         {
           movie_id: id,
           rating: rating,
           comments: comments,
-        }
+        },
+        getAuthHeaders()
       );
 
       setComments("");

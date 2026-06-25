@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL, getAuthHeaders } from "../services/api";
 import "./Collections.css";
 import CollectionCard from "../components/CollectionCard";
 
@@ -15,7 +16,8 @@ function Collections() {
   const loadCollections = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/collections"
+        `${BASE_URL}/collections`,
+        getAuthHeaders()
       );
 
       setCollections(response.data);
@@ -30,11 +32,12 @@ function Collections() {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/collections",
+        `${BASE_URL}/collections`,
         {
           name,
           description
-        }
+        },
+        getAuthHeaders()
       );
 
       setName("");
@@ -50,7 +53,8 @@ function Collections() {
   const deleteCollection = async (id) => {
     try {
       await axios.delete(
-        `http://127.0.0.1:8000/collections/${id}`
+        `${BASE_URL}/collections/${id}`,
+        getAuthHeaders()
       );
 
       loadCollections();
