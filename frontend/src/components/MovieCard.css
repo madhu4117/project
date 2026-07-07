@@ -25,3 +25,57 @@
   padding: 5px 10px;
   border-radius: 5px;
 }
+
+.compare-btn{
+    width:100%;
+    margin-top:12px;
+    padding:12px;
+    border:none;
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #8b5cf6,
+        #ec4899
+    );
+
+    color:white;
+    font-size:15px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+
+    box-shadow:0 8px 20px rgba(236,72,153,.35);
+}
+
+.compare-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 12px 25px rgba(236,72,153,.5);
+}
+
+.compare-btn.selected{
+
+    background:linear-gradient(
+        135deg,
+        #10b981,
+        #059669
+    );
+
+    box-shadow:0 10px 25px rgba(16,185,129,.45);
+}
+
+.compare-btn.selected:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 12px 30px rgba(16,185,129,.6);
+}

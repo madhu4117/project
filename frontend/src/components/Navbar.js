@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { fetchFavorites } from "../services/api";
 import "./Navbar.css";
 
 function Navbar() {
   const [count, setCount] = useState(0);
-
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const loadCount = async () => {
-    const token = localStorage.getItem("token");
+  useEffect(() => {
+    loadFavorites();
+  }, []);
 
-    if (!token) return;
-
+  const loadFavorites = async () => {
     try {
       const data = await fetchFavorites();
 
@@ -21,15 +19,11 @@ function Navbar() {
         setCount(data.length);
       }
     } catch (err) {
-      console.error("Failed to load favorites count:", err);
+      console.log(err);
     }
   };
 
-  useEffect(() => {
-    loadCount();
-  }, [location.pathname]);
-
-  const handleLogout = () => {
+  const logout = () => {
     localStorage.removeItem("token");
     navigate("/");
   };
@@ -37,52 +31,43 @@ function Navbar() {
   return (
     <nav className="navbar">
 
-      <div className="navbar-logo">
-        <Link to="/home">
-          🎬 Movie Explorer
-        </Link>
-      </div>
+      <NavLink to="/home" className="navbar-logo">
+        🎬
+        <span>Movie Explorer</span>
+      </NavLink>
 
       <div className="navbar-links">
 
-        <Link
-          to="/home"
-          className={location.pathname === "/home" ? "active" : ""}
-        >
+        <NavLink to="/home">
           Home
-        </Link>
+        </NavLink>
 
-        <Link
-          to="/favorites"
-          className={location.pathname === "/favorites" ? "active" : ""}
-        >
-          Favorites ❤️
-          <span className="fav-count">
-            {count}
-          </span>
-        </Link>
+        <NavLink to="/favorites">
+          Favorites
 
-        <Link
-         to="/collections"className={location.pathname === "/collections"? "active" : ""}
-         >
-          Collections 📁
-        </Link>
+          {count > 0 && (
+            <span className="fav-count">
+              {count}
+            </span>
+          )}
+        </NavLink>
 
-        <Link
-          to="/profile"
-          className={location.pathname === "/profile" ? "active" : ""}
-        >
-          Profile 👤
-        </Link>
+        <NavLink to="/collections">
+          Collections
+        </NavLink>
 
-        <button
-          className="logout-btn"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
+        <NavLink to="/profile">
+          Profile
+        </NavLink>
 
       </div>
+
+      <button
+        className="logout-btn"
+        onClick={logout}
+      >
+        Logout
+      </button>
 
     </nav>
   );

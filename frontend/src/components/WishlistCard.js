@@ -1,32 +1,37 @@
 import React from "react";
 
-function WishlistCard({
-  movie,
-  removeFromWishlist,
-}) {
+const WishlistCard = ({ movie, removeFromWishlist }) => {
   return (
     <div className="wishlist-card">
+
       <img
-        src={movie.Poster}
+        src={
+          movie.Poster !== "N/A"
+            ? movie.Poster
+            : "https://via.placeholder.com/300x450?text=No+Poster"
+        }
         alt={movie.Title}
       />
 
-      <h3>{movie.Title}</h3>
+      <div className="wishlist-info">
 
-<p>📅 {movie.Year}</p>
+        <h3>{movie.Title}</h3>
 
-      <button
-        className="remove-btn"
-        onClick={() =>
-          removeFromWishlist(
-            movie.imdbID
-          )
-        }
-      >
-        ❌ Remove
-      </button>
+        <p className="wishlist-year">
+          {movie.Year}
+        </p>
+
+        <button
+          className="remove-btn"
+          onClick={() => removeFromWishlist(movie.imdbID)}
+        >
+          🗑 Remove
+        </button>
+
+      </div>
+
     </div>
   );
-}
+};
 
 export default WishlistCard;

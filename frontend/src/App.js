@@ -14,6 +14,7 @@ import Navbar from "./components/Navbar";
 import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/AdminDashboard";
 import Collections from "./pages/Collections";
+import CompareMovies from "./pages/CompareMovies";
 
 
 const AppContent = () => {
@@ -31,6 +32,7 @@ const AppContent = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/admin"element={<AdminDashboard />}/>
         <Route path="/collections"element={<Collections />}/>
+        <Route path="/compare" element={<CompareMovies />} />
       </Routes>
     </>
   );
